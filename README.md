@@ -1,2 +1,3 @@
-# crm-backend
-Simple CRM backend written in Go for the Udacity Golang capstone project
+# CRM Backend
+
+Simple CRM backend written in Go for the Udacity Golang capstone project.
