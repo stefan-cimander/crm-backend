@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"io/ioutil"
 	"net/http"
 	"strconv"
 
@@ -50,15 +51,69 @@ func getCustomer(w http.ResponseWriter, r *http.Request) {
 }
 
 func addCustomer(w http.ResponseWriter, r *http.Request) {
-	fmt.Println("Add customer...")
+	w.Header().Set("Content-Type", "application/json")
+
+	reqBody, _ := ioutil.ReadAll(r.Body)
+	newCustomer := Customer{}
+	json.Unmarshal(reqBody, &newCustomer)
+
+	maxId := 0
+	for _, customer := range customers {
+		if customer.Id > maxId {
+			maxId = customer.Id
+		}
+	}
+	newCustomer.Id = maxId + 1
+
+	customers = append(customers, newCustomer)
+
+	w.WriteHeader(http.StatusCreated)
+	json.NewEncoder(w).Encode(newCustomer)
 }
 
 func updateCustomer(w http.ResponseWriter, r *http.Request) {
-	fmt.Println("Update customer...")
+	w.Header().Set("Content-Type", "application/json")
+
+	reqBody, _ := ioutil.ReadAll(r.Body)
+	updatedCustomer := Customer{}
+	json.Unmarshal(reqBody, &updatedCustomer)
+
+	idParam := mux.Vars(r)["id"]
+	id, _ := strconv.Atoi(idParam)
+
+	if updatedCustomer.Id != id {
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+
+	for index, customer := range customers {
+		if customer.Id == id {
+			customers[index] = updatedCustomer
+
+			w.WriteHeader(http.StatusOK)
+			json.NewEncoder(w).Encode(updatedCustomer)
+			return
+		}
+	}
+
+	w.WriteHeader(http.StatusNotFound)
 }
 
 func deleteCustomer(w http.ResponseWriter, r *http.Request) {
-	fmt.Println("Delete customer...")
+	w.Header().Set("Content-Type", "application/json")
+
+	idParam := mux.Vars(r)["id"]
+	id, _ := strconv.Atoi(idParam)
+
+	for index, customer := range customers {
+		if customer.Id == id {
+			customers = append(customers[:index], customers[index+1:]...)
+			w.WriteHeader(http.StatusNoContent)
+			return
+		}
+	}
+
+	w.WriteHeader(http.StatusNotFound)
 }
 
 func main() {
