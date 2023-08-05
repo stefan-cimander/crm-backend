@@ -4,7 +4,15 @@ Simple CRM backend written in Go for the capstone project of the Udacity Golang 
 
 ## Getting Started
 
-...
+This CRM backend project provides a basic HTTP server implementation for the following API endpoints:
+
+HTTP Method | URL Path        | Description
+----------- | --------------- | ----------------------------
+GET         | /customers      | Gets a list of all customers
+GET         | /customers/{id} | Gets a single customer
+POST        | /customers      | Adds a new customer
+PUT         | /customers/{id} | Updates an existing customer
+DELETE      | /customers/{id} | Deletes a customer
 
 ## Local Setup
 
@@ -18,4 +26,4 @@ The project's unit tests can be executed by running `go test`.
 
 ## Build Status
 
-[![Go](https://github.com/stefan-cimander/crm-backend/actions/workflows/build.yml/badge.svg)](https://github.com/stefan-cimander/crm-backend/actions/workflows/build.yml)
+[![Go](https://github.com/stefan-cimander/crm-backend/actions/workflows/go.yml/badge.svg)](https://github.com/stefan-cimander/crm-backend/actions/workflows/go.yml)
