@@ -15,3 +15,7 @@ In order to run the CRM backend on your local machine, navigate to the project r
 The CRM backend HTTP server can then be reached at http://localhost:3000.
 
 The project's unit tests can be executed by running `go test`.
+
+## Build Status
+
+[![Go](https://github.com/stefan-cimander/crm-backend/actions/workflows/build.yml/badge.svg)](https://github.com/stefan-cimander/crm-backend/actions/workflows/build.yml)
