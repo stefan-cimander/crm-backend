@@ -26,6 +26,10 @@ var customers = []Customer{
 	{Id: 3, Name: "Elon Musk", Role: "Founder & CEO", Company: "Tesla", Email: "elon.musk@tesla.com", Phone: "+1 345 678 901", Contacted: false},
 }
 
+func index(w http.ResponseWriter, r *http.Request) {
+	http.ServeFile(w, r, "static/index.html")
+}
+
 func getCustomers(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
@@ -119,12 +123,13 @@ func deleteCustomer(w http.ResponseWriter, r *http.Request) {
 func main() {
 	router := mux.NewRouter()
 
+	router.HandleFunc("/", index)
 	router.HandleFunc("/customers", getCustomers).Methods("GET")
 	router.HandleFunc("/customers/{id}", getCustomer).Methods("GET")
 	router.HandleFunc("/customers", addCustomer).Methods("POST")
 	router.HandleFunc("/customers/{id}", updateCustomer).Methods("PUT")
 	router.HandleFunc("/customers/{id}", deleteCustomer).Methods("DELETE")
 
-	fmt.Println("Starting the CRM backend server on port 3000...")
+	fmt.Println("Starting the CRM backend server at http://localhost:3000")
 	http.ListenAndServe(":3000", router)
 }

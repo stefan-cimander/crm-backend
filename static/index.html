@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <title>CRM API</title>
+    </head>
+    <style>
+        * {
+            font-family: 'Courier New', Courier, monospace
+        }
+        th, td {
+            text-align: left;
+            padding-right: 2em;
+        }
+    </style>
+    <body>
+        <h1>CRM API</h1>
+        <p>This CRM backend project provides a basic HTTP server implementation for the following API endpoints:</p>
+        <table>
+            <tr>
+                <th>HTTP Method</th>
+                <th>URL Path</th>
+                <th>Description</th>
+            </tr>
+            <tr>
+                <td>GET</td>
+                <td>/customers</td>
+                <td>Gets a list of all customers</td>
+            </tr>
+            <tr>
+                <td>GET</td>
+                <td>/customers/{id}</td>
+                <td>Gets a single customer</td>
+            </tr>
+            <tr>
+                <td>POST</td>
+                <td>/customers</td>
+                <td>Adds a new customer</td>
+            </tr>
+            <tr>
+                <td>PUT</td>
+                <td>/customers/{id}</td>
+                <td>Updates an existing customer</td>
+            </tr>
+            <tr>
+                <td>DELETE</td>
+                <td>/customers/{id}</td>
+                <td>Deletes a customer</td>
+            </tr>
+        </table>
+    </body>    
+</html>
