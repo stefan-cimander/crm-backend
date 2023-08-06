@@ -14,16 +14,15 @@ type Customer struct {
 	Id        int    `json:"id,omitempty"`
 	Name      string `json:"name,omitempty"`
 	Role      string `json:"role,omitempty"`
-	Company   string `json:"company,omitempty"`
 	Email     string `json:"email,omitempty"`
 	Phone     string `json:"phone,omitempty"`
-	Contacted bool   `json:"contacted,omitempty"`
+	Contacted bool   `json:"contacted"`
 }
 
 var customers = []Customer{
-	{Id: 1, Name: "Tim Cook", Role: "CEO", Company: "Apple", Email: "tim.cook@apple.com", Phone: "+1 123 456 789", Contacted: true},
-	{Id: 2, Name: "Larry Page", Role: "Founder", Company: "Google", Email: "larry.page@google.com", Phone: "+1 234 567 890", Contacted: true},
-	{Id: 3, Name: "Elon Musk", Role: "Founder & CEO", Company: "Tesla", Email: "elon.musk@tesla.com", Phone: "+1 345 678 901", Contacted: false},
+	{Id: 1, Name: "Tim Cook", Role: "CEO", Email: "tim.cook@apple.com", Phone: "+1 123 456 789", Contacted: true},
+	{Id: 2, Name: "Larry Page", Role: "Founder", Email: "larry.page@google.com", Phone: "+1 234 567 890", Contacted: true},
+	{Id: 3, Name: "Elon Musk", Role: "Founder & CEO", Email: "elon.musk@tesla.com", Phone: "+1 345 678 901", Contacted: false},
 }
 
 func index(w http.ResponseWriter, r *http.Request) {
@@ -78,17 +77,13 @@ func addCustomer(w http.ResponseWriter, r *http.Request) {
 func updateCustomer(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 
-	reqBody, _ := ioutil.ReadAll(r.Body)
-	updatedCustomer := Customer{}
-	json.Unmarshal(reqBody, &updatedCustomer)
-
 	idParam := mux.Vars(r)["id"]
 	id, _ := strconv.Atoi(idParam)
 
-	if updatedCustomer.Id != id {
-		w.WriteHeader(http.StatusBadRequest)
-		return
-	}
+	updatedCustomer := Customer{}
+	reqBody, _ := ioutil.ReadAll(r.Body)
+	json.Unmarshal(reqBody, &updatedCustomer)
+	updatedCustomer.Id = id
 
 	for index, customer := range customers {
 		if customer.Id == id {
